@@ -60,7 +60,8 @@ const satirlar: [string, string, string, string][] = [
   ['Ömür sonu biyokömür', '+ ', 'eol', ' t'],
 ];
 ---
-<section id="hesapla" style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 32px">
+<section id="hesapla" class="hesap-bant">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
 <p class="eyebrow">Karbon hesaplayıcı</p>
 <h2 class="h2">Binanızın karbonunu ve kazancınızı hesaplayın</h2>
@@ -68,9 +69,11 @@ const satirlar: [string, string, string, string][] = [
 </div>
 <form id="karbon-form" style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start" onsubmit="return false">
 <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
-{gruplar.map((g) => (
-<fieldset class="grup">
-<legend>{g.baslik}</legend>
+{gruplar.map((g, i) => {
+const [no, ad] = g.baslik.split(' · ');
+return (
+<fieldset class={`grup grup-${i + 1}`}>
+<legend><span class="grup-no" aria-hidden="true">{no}</span><span class="gorunmez">{no}. adım: </span>{ad}</legend>
 {g.alanlar.map((a) => a.tip === 'select' ? (
 <label class="alan"><span>{a.etiket}</span>
 <select name={a.key}>
@@ -78,10 +81,11 @@ const satirlar: [string, string, string, string][] = [
 </select></label>
 ) : (
 <label class="alan"><span class="ust"><span>{a.etiket}</span><strong>{a.on}<span data-out={a.out ?? a.key}>{v[a.out ?? a.key]}</span>{a.son}</strong></span>
-<input type="range" name={a.key} min={a.min} max={a.max} step={a.step} value={d[a.key]}></label>
+<input type="range" name={a.key} min={a.min} max={a.max} step={a.step} value={d[a.key]} style={`--dolu: ${((Number(d[a.key]) - a.min) / (a.max - a.min)) * 100}%`}></label>
 ))}
 </fieldset>
-))}
+);
+})}
 </div>
 
 <div class="sonuc">
@@ -97,11 +101,54 @@ const satirlar: [string, string, string, string][] = [
 <div style="background: #2A3830; border-radius: 16px; padding: 14px; font-size: 13px; line-height: 1.5; color: #D5DED8">Daire başı yılda ≈ <span data-out="kwhDaire">{v.kwhDaire}</span> kWh daha az klima. A satışa henüz dahil değil: binada depolanan karbonun sertifika yöntemi AB'de hazırlanıyor; kayıtta tutulur.</div>
 </div>
 </form>
+</div>
 </section>
 
 <style>
-.grup { margin: 0; border: none; background: #FFFFFF; border-radius: 24px; padding: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 20px; min-width: 0; }
-.grup legend { float: left; width: 100%; grid-column: 1 / -1; padding: 0; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+/* Hesaplayıcı bandı: sayfa zemininden bir ton koyu bej, kartlar üstünde öne çıkar */
+.hesap-bant { background: linear-gradient(180deg, #F6F1E7 0%, #EDE3CF 18%, #E9DFC9 100%); }
+
+/* Her adımın kendi rengi (sitenin paletinden) */
+/* --renk: şerit, rozet, kaydırıcı · --acik: değer etiketinin zemini · --yazi: okunaklı koyu tonu */
+.grup-1 { --renk: #2F5D46; --acik: #E4ECE6; --yazi: #2F5D46; --rozet-yazi: #FFFFFF; }
+.grup-2 { --renk: #B8873A; --acik: #F4EAD8; --yazi: #6E4F1C; --rozet-yazi: #FFFFFF; }
+.grup-3 { --renk: #1E2A24; --acik: #E6E8E4; --yazi: #1E2A24; --rozet-yazi: #FFFFFF; }
+.grup-4 { --renk: #E3A33C; --acik: #FBEFD9; --yazi: #6E4A12; --rozet-yazi: #1E2A24; }
+
+.grup {
+  position: relative; overflow: hidden;
+  margin: 0; border: none; background: #FFFFFF; border-radius: 24px; padding: 30px 24px 24px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 20px; min-width: 0;
+  box-shadow: 0 10px 28px rgba(30, 42, 36, 0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.grup:focus-within { box-shadow: 0 0 0 2px var(--renk), 0 14px 34px rgba(30, 42, 36, 0.12); }
+.grup legend { float: left; width: 100%; grid-column: 1 / -1; padding: 0; font-size: 18px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 12px; color: var(--yazi); }
+.grup-no { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--renk); color: var(--rozet-yazi); display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+.gorunmez { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Değerler renkli küçük etiket olarak; kaydırıcı ve seçim kutusu adımın renginde */
+.grup .ust strong { background: var(--acik); color: var(--yazi); padding: 3px 10px; border-radius: 999px; font-size: 13px; white-space: nowrap; }
+.grup::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: var(--renk); }
+
+/* Kaydırıcı: dolu kısım adımın renginde, boş kısım açık bej */
+.grup input[type=range] {
+  -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer;
+  --iz: linear-gradient(to right, var(--renk) 0 var(--dolu, 50%), #E7DFCF var(--dolu, 50%) 100%);
+}
+.grup input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: var(--iz); }
+.grup input[type=range]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--iz); }
+.grup input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 20px; height: 20px; margin-top: -7px; border-radius: 50%;
+  background: var(--renk); border: 3px solid #FFFFFF; box-shadow: 0 1px 4px rgba(30, 42, 36, 0.35);
+}
+.grup input[type=range]::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%; box-sizing: border-box;
+  background: var(--renk); border: 3px solid #FFFFFF; box-shadow: 0 1px 4px rgba(30, 42, 36, 0.35);
+}
+.grup input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+.grup select { border-color: color-mix(in srgb, var(--renk) 35%, #CFC4AD); }
+.grup select:hover { border-color: var(--renk); }
 .sonuc { flex: 1 1 340px; min-width: 0; background: #1E2A24; color: #F6F1E7; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
 .satir { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #3A4A41; }
 .satir strong { white-space: nowrap; }
@@ -129,6 +176,11 @@ if (form) {
     if (gunes && gun) gunes.value = String(gun);
   });
   const guncelle = () => {
+    // Kaydırıcıların dolu kısmını güncelle
+    for (const r of form.querySelectorAll<HTMLInputElement>('input[type=range]')) {
+      const min = Number(r.min), max = Number(r.max);
+      r.style.setProperty('--dolu', `${((Number(r.value) - min) / (max - min)) * 100}%`);
+    }
     const s: Record<string, string | number> = { ...VARSAYILAN };
     for (const el of form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[name], select[name]')) {
       s[el.name] = el.type === 'range' ? Number(el.value) : el.value;
