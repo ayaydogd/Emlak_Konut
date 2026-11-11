@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.astro/
+.netlify/
+.vercel/
+.env
+.DS_Store
+
+# Yerel / tasarim dosyalari
+CLAUDE.md
+.claude/
+tasarim/
+netlify.toml

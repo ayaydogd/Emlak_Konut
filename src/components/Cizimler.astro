@@ -1,0 +1,29 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+// public/cizimler/cizim-N.jpg varsa çizim gösterilir; yoksa kesikli yer tutucu kalır.
+const cizimler = [
+  { dosya: 'cizim-1.jpg', baslik: 'Çizim 1 · Cephe görünüşü', aciklama: 'Lamellerin kapalı / yarı açık / açık konumları' },
+  { dosya: 'cizim-2.jpg', baslik: 'Çizim 2 · Modül detayı ve kesit', aciklama: 'Döner mil, motor, sensör, cephe ankrajı' },
+  { dosya: 'cizim-3.jpg', baslik: 'Çizim 3 · Perspektif', aciklama: 'Pilot bloğun batı cephesinde gölgelik' },
+].map((c) => ({ ...c, var: fs.existsSync(path.join(process.cwd(), 'public', 'cizimler', c.dosya)) }));
+---
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px">
+{cizimler.map((c) => c.var ? (
+<figure class="cizim">
+<a href={`/cizimler/${c.dosya}`}><img src={`/cizimler/${c.dosya}`} alt={`${c.baslik}: ${c.aciklama}`} loading="lazy" decoding="async"></a>
+<figcaption><strong>{c.baslik}</strong><span>{c.aciklama}</span></figcaption>
+</figure>
+) : (
+<div class="yer-tutucu"><strong style="font-size: 18px">{c.baslik}</strong><span style="font-size: 14px; color: #55625B">{c.aciklama}</span></div>
+))}
+</div>
+
+<style>
+.yer-tutucu { min-height: 340px; border: 2px dashed #B8873A; border-radius: 24px; background: #F6F1E7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; }
+.cizim { margin: 0; border-radius: 24px; background: #F6F1E7; overflow: hidden; display: flex; flex-direction: column; }
+.cizim img { display: block; width: 100%; height: 340px; object-fit: contain; background: #FFFFFF; }
+.cizim figcaption { padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
+.cizim figcaption span { font-size: 14px; color: #55625B; }
+</style>

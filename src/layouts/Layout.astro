@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "KARGI-GÖLGE — Antalya'nın atığı, Antalya'nın gölgesi",
+  description = 'Derelerden temizlenen istilacı kargıdan, güneşi izleyen ve karbon pasaportuyla gelen cephe gölgelikleri. Antalya.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content={description}>
+<meta name="theme-color" content="#1E2A24">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>{title}</title>
+</head>
+<body>
+<a class="skip" href="#icerik">İçeriğe geç</a>
+<Header />
+<main id="icerik">
+<slot />
+</main>
+<Footer />
+</body>
+</html>

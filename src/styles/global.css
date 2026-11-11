@@ -1,0 +1,60 @@
+:root {
+  --zemin: #F6F1E7;
+  --koyu: #1E2A24;
+  --yesil: #2F5D46;
+  --kargi: #B8873A;
+  --vurgu: #E3A33C;
+  --bej: #E9DFC9;
+  /* yan boşluk: telefonda 20px, geniş ekranda tasarımdaki 32px */
+  --g: clamp(20px, 5vw, 32px);
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--zemin);
+  color: var(--koyu);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+*, *::before, *::after { box-sizing: border-box; }
+img, svg { max-width: 100%; }
+
+a { color: var(--yesil); }
+a:hover { color: var(--koyu); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--vurgu);
+  outline-offset: 2px;
+}
+
+.skip {
+  position: absolute; left: 8px; top: -60px; z-index: 10;
+  background: var(--koyu); color: var(--zemin); padding: 10px 16px; border-radius: 8px;
+}
+.skip:focus { top: 8px; color: var(--zemin); }
+
+/* Tekrarlanan tipografi */
+.eyebrow { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--yesil); }
+.h2 { margin: 0; font-size: clamp(30px, 5.5vw, 44px); font-weight: 700; letter-spacing: -0.5px; line-height: 1.12; }
+.lead { margin: 0; font-size: 17px; line-height: 1.6; color: #3D4A43; }
+
+/* Butonlar */
+.btn { display: inline-block; padding: 16px 26px; border-radius: 999px; text-decoration: none; font-weight: 600; text-align: center; border: none; font: inherit; font-weight: 600; cursor: pointer; }
+.btn-koyu { background: var(--koyu); color: var(--zemin); }
+.btn-koyu:hover { background: #2C3B33; color: var(--zemin); }
+.btn-yesil { background: var(--yesil); color: #FFFFFF; }
+.btn-yesil:hover { background: #244A37; color: #FFFFFF; }
+.btn-cizgi { border: 1.5px solid var(--koyu); color: var(--koyu); padding: 15px 24px; }
+.btn-cizgi:hover { background: var(--koyu); color: var(--zemin); }
+
+/* Form ortak */
+.alan { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.alan input[type=text], .alan input[type=email], .alan input[type=tel], .alan select, .alan textarea {
+  min-height: 44px; border-radius: 12px; border: 1px solid #CFC4AD; padding: 0 12px;
+  font-family: inherit; font-size: 15px; background: #FFFFFF; color: var(--koyu);
+}
+.alan textarea { padding: 12px; min-height: 140px; resize: vertical; }
+.alan input[type=range] { width: 100%; accent-color: var(--yesil); height: 28px; margin: 0; }
+.alan .ust { display: flex; justify-content: space-between; gap: 8px; }

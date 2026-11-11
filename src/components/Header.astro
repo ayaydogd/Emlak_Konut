@@ -1,0 +1,36 @@
+---
+// `/#...` bağlantıları ana sayfada sayfa içi kaydırır, diğer sayfalardan ana sayfaya döner.
+const menu = [
+  ['kargi', 'Kargı'],
+  ['golgelik', 'Gölgelik'],
+  ['hesapla', 'Karbon hesapla'],
+  ['biyokomur', 'Biyokömür'],
+  ['emlak-konut', 'Karbonunu sat'],
+  ['uygulama', 'Uygulama'],
+  ['sss', 'SSS'],
+  ['pilot', 'Pilot'],
+];
+---
+<header class="site-header">
+<a href="/" class="logo">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="4" height="24" rx="1" fill="#2F5D46" transform="rotate(-12 6 16)"></rect><rect x="12" y="4" width="4" height="24" rx="1" fill="#2F5D46" transform="rotate(-12 14 16)"></rect><rect x="20" y="4" width="4" height="24" rx="1" fill="#B8873A" transform="rotate(-12 22 16)"></rect></svg>
+<span>KARGI-GÖLGE</span>
+</a>
+<nav aria-label="Ana menü">
+{menu.map(([id, ad]) => <a href={`/#${id}`}>{ad}</a>)}
+</nav>
+<a href="/iletisim?konu=teklif" class="btn btn-koyu teklif">Teklif al</a>
+</header>
+
+<style>
+.site-header { max-width: 1240px; margin: 0 auto; padding: 24px var(--g); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--koyu); }
+.logo span { font-weight: 700; font-size: 20px; letter-spacing: 0.5px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; font-weight: 500; }
+nav a { text-decoration: none; padding: 4px 0; }
+nav a:hover { text-decoration: underline; }
+.teklif { padding: 12px 20px; font-size: 15px; }
+@media (max-width: 760px) {
+  nav { order: 3; width: 100%; gap: 6px 16px; }
+}
+</style>

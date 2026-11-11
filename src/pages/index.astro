@@ -1,0 +1,468 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hesaplayici from '../components/Hesaplayici.astro';
+import Cizimler from '../components/Cizimler.astro';
+---
+<Layout>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 48px var(--g) 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 56px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<p class="eyebrow">Antalya · Uyarlanabilir biyo-cephe</p>
+<h1 style="margin: 0; font-size: clamp(40px, 8.5vw, 64px); line-height: 1.02; font-weight: 700; letter-spacing: -1px">Antalya'nın atığı,<br>Antalya'nın gölgesi.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 1.55; max-width: 520px; color: #3D4A43">Derelerden temizlenen istilacı kargıyı preslenmiş lamellere dönüştürüyoruz. Lameller güneşi izleyerek döner, içeriye istediğiniz kadar ışık ve ısı alır, her panel kendi karbon pasaportuyla gelir.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#hesapla" class="btn btn-yesil">Binanın karbonunu hesapla</a>
+<a href="#emlak-konut" class="btn btn-cizgi">Karbonunu Emlak Konut'a sat</a>
+</div>
+</div>
+<div style="position: relative; background: #E9DFC9; border-radius: 28px; padding: 32px; min-height: 460px; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 420 420" style="width: 100%; max-width: 420px" role="img" aria-label="Güneşe göre dönen kargı lamelli bina cephesi çizimi">
+<circle cx="370" cy="54" r="30" fill="#E3A33C"></circle>
+<rect x="60" y="70" width="280" height="330" fill="#F6F1E7" stroke="#1E2A24" stroke-width="2"></rect>
+<g fill="#C7D3CC" stroke="#1E2A24" stroke-width="1">
+<rect x="84" y="96" width="64" height="52"></rect><rect x="168" y="96" width="64" height="52"></rect><rect x="252" y="96" width="64" height="52"></rect>
+<rect x="84" y="176" width="64" height="52"></rect><rect x="168" y="176" width="64" height="52"></rect><rect x="252" y="176" width="64" height="52"></rect>
+<rect x="84" y="256" width="64" height="52"></rect><rect x="168" y="256" width="64" height="52"></rect><rect x="252" y="256" width="64" height="52"></rect>
+<rect x="84" y="336" width="64" height="52"></rect><rect x="168" y="336" width="64" height="52"></rect><rect x="252" y="336" width="64" height="52"></rect>
+</g>
+<g fill="#B8873A" stroke="#7A5A22" stroke-width="1">
+<rect x="246" y="86" width="10" height="72" rx="3" transform="rotate(-28 251 122)"></rect><rect x="266" y="86" width="10" height="72" rx="3" transform="rotate(-28 271 122)"></rect><rect x="286" y="86" width="10" height="72" rx="3" transform="rotate(-28 291 122)"></rect><rect x="306" y="86" width="10" height="72" rx="3" transform="rotate(-28 311 122)"></rect>
+<rect x="246" y="166" width="10" height="72" rx="3" transform="rotate(-28 251 202)"></rect><rect x="266" y="166" width="10" height="72" rx="3" transform="rotate(-28 271 202)"></rect><rect x="286" y="166" width="10" height="72" rx="3" transform="rotate(-28 291 202)"></rect><rect x="306" y="166" width="10" height="72" rx="3" transform="rotate(-28 311 202)"></rect>
+<rect x="246" y="246" width="10" height="72" rx="3" transform="rotate(-10 251 282)"></rect><rect x="266" y="246" width="10" height="72" rx="3" transform="rotate(-10 271 282)"></rect><rect x="286" y="246" width="10" height="72" rx="3" transform="rotate(-10 291 282)"></rect><rect x="306" y="246" width="10" height="72" rx="3" transform="rotate(-10 311 282)"></rect>
+<rect x="246" y="326" width="10" height="72" rx="3" transform="rotate(-10 251 362)"></rect><rect x="266" y="326" width="10" height="72" rx="3" transform="rotate(-10 271 362)"></rect><rect x="286" y="326" width="10" height="72" rx="3" transform="rotate(-10 291 362)"></rect><rect x="306" y="326" width="10" height="72" rx="3" transform="rotate(-10 311 362)"></rect>
+</g>
+<line x1="350" y1="74" x2="300" y2="110" stroke="#E3A33C" stroke-width="2" stroke-dasharray="4 4"></line>
+</svg>
+<div style="position: absolute; left: 20px; bottom: 20px; background: #FFFFFF; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 6px 24px rgba(30,42,36,0.12)">
+<span style="font-size: 12px; color: #55625B; font-weight: 600">BATI CEPHESİ · CANLI (örnek veri)</span>
+<span style="font-size: 22px; font-weight: 700">Lamel açısı 28°</span>
+<span style="font-size: 14px; color: #3D4A43">İç 25,8 °C · Dış 36,4 °C</span>
+</div>
+</div>
+</section>
+
+<section style="background: #1E2A24; color: #F6F1E7">
+<div style="max-width: 1240px; margin: 0 auto; padding: 40px var(--g); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 36px; font-weight: 700">%46</span><span style="font-size: 15px; color: #C9D3CD">Kuru kargının karbon oranı. 1 kg kargı ≈ 1,69 kg CO₂ bağlar.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 36px; font-weight: 700">%60+</span><span style="font-size: 15px; color: #C9D3CD">Kuru Akdeniz ikliminde dış hareketli gölgelemenin soğutma ihtiyacındaki azalması (literatür). Pilotta ölçülecek.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 36px; font-weight: 700">0,50 m</span><span style="font-size: 15px; color: #C9D3CD">İmar yönetmeliğine uygun en fazla cephe çıkıntısı; lamel açıkken bile aşılmaz.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 36px; font-weight: 700">2027</span><span style="font-size: 15px; color: #C9D3CD">10.000 m² üzeri yeni binalarda yaşam döngüsü analizi belgesi zorunlu.</span></div>
+</div>
+</section>
+
+<section id="kargi" style="max-width: 1240px; margin: 0 auto; padding: 96px var(--g) 64px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="eyebrow">Malzememiz</p>
+<h2 class="h2">Kargı: dereyi tıkayan bitki, cepheyi serinleten malzeme</h2>
+<p class="lead">Kargı kamışı (Arundo donax), Akdeniz ikliminde dere ve kanal kenarlarında kendiliğinden yayılan, çok yıllık dev bir otsu bitkidir. Türkiye'de Ege, Akdeniz ve Marmara'da doğal olarak bulunur. Sel riskini artırdığı için dere bakımında zaten kesilir; biz bu kesimi yapı malzemesine dönüştürüyoruz.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 40px; align-items: center">
+<figure style="margin: 0; background: #E9DFC9; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<svg viewBox="0 0 400 500" style="width: 100%" role="img" aria-label="Kargı bitkisi çizimi: tüy salkımı, şerit yapraklar, boğumlu gövde, boy ölçeği ve yeraltındaki rizom">
+<rect x="0" y="420" width="400" height="80" fill="#C9B48A"></rect>
+<line x1="0" y1="420" x2="400" y2="420" stroke="#7A5A22" stroke-width="2"></line>
+<g stroke="#55625B" stroke-width="1.5">
+<line x1="34" y1="60" x2="34" y2="420"></line>
+<line x1="28" y1="60" x2="40" y2="60"></line><line x1="28" y1="132" x2="40" y2="132"></line><line x1="28" y1="204" x2="40" y2="204"></line><line x1="28" y1="276" x2="40" y2="276"></line><line x1="28" y1="348" x2="40" y2="348"></line><line x1="28" y1="420" x2="40" y2="420"></line>
+</g>
+<g fill="#3D4A43" font-size="12" font-family="Helvetica, Arial, sans-serif">
+<text x="44" y="64">5 m</text><text x="44" y="208">3 m</text><text x="44" y="352">1 m</text>
+</g>
+<g fill="none" stroke="#7A6A2E" stroke-width="7" stroke-linecap="round">
+<path d="M200 420 L196 70"></path>
+<path d="M175 420 L160 120"></path>
+<path d="M228 420 L248 140"></path>
+<path d="M150 420 L120 210"></path>
+<path d="M255 420 L292 220"></path>
+</g>
+<g stroke="#E9DFC9" stroke-width="2">
+<line x1="191" y1="360" x2="205" y2="360"></line><line x1="192" y1="300" x2="206" y2="300"></line><line x1="193" y1="240" x2="207" y2="240"></line><line x1="194" y1="180" x2="208" y2="180"></line><line x1="195" y1="120" x2="209" y2="120"></line>
+<line x1="165" y1="340" x2="179" y2="340"></line><line x1="162" y1="270" x2="176" y2="270"></line><line x1="160" y1="200" x2="174" y2="200"></line>
+<line x1="231" y1="350" x2="245" y2="350"></line><line x1="236" y1="280" x2="250" y2="280"></line><line x1="240" y1="210" x2="254" y2="210"></line>
+</g>
+<g fill="#5F8A54" stroke="#3E6236" stroke-width="1">
+<path d="M197 300 C230 290 262 300 290 322 C258 312 228 308 197 306 Z"></path>
+<path d="M196 240 C162 228 130 236 104 256 C134 246 166 244 196 246 Z"></path>
+<path d="M195 180 C228 166 260 172 284 190 C256 184 226 182 195 186 Z"></path>
+<path d="M195 120 C166 106 138 110 116 126 C142 120 170 120 195 126 Z"></path>
+<path d="M162 270 C130 262 104 272 84 292 C108 280 136 276 162 276 Z"></path>
+<path d="M161 200 C132 186 106 190 86 206 C110 200 136 200 161 206 Z"></path>
+<path d="M240 280 C272 270 300 280 324 300 C298 292 270 288 240 286 Z"></path>
+<path d="M245 210 C276 196 304 202 326 220 C300 214 272 212 245 216 Z"></path>
+<path d="M125 260 C100 256 80 266 64 284 C84 274 104 270 125 266 Z"></path>
+<path d="M285 260 C310 252 332 262 348 280 C328 272 306 268 285 266 Z"></path>
+</g>
+<g fill="#D8C08A" stroke="#A88A4A" stroke-width="1">
+<path d="M196 72 C186 48 190 22 200 6 C210 24 212 48 202 72 Z"></path>
+<path d="M197 64 C176 52 170 34 172 18 C186 30 194 44 199 62 Z"></path>
+<path d="M199 64 C220 52 226 34 224 18 C210 30 202 44 199 62 Z"></path>
+</g>
+<g fill="#8A6A3A">
+<ellipse cx="200" cy="440" rx="70" ry="14"></ellipse>
+<ellipse cx="140" cy="452" rx="40" ry="10"></ellipse>
+<ellipse cx="262" cy="456" rx="44" ry="10"></ellipse>
+</g>
+<g stroke="#8A6A3A" stroke-width="2" fill="none"><path d="M150 460 L140 485"></path><path d="M200 452 L205 490"></path><path d="M262 466 L275 492"></path><path d="M120 456 L100 480"></path></g>
+<g font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">
+<circle cx="236" cy="30" r="13" fill="#1E2A24"></circle><text x="232" y="35">1</text>
+<circle cx="316" cy="180" r="13" fill="#1E2A24"></circle><text x="312" y="185">2</text>
+<circle cx="222" cy="244" r="13" fill="#1E2A24"></circle><text x="218" y="249">3</text>
+<circle cx="70" cy="132" r="13" fill="#1E2A24"></circle><text x="66" y="137">4</text>
+<circle cx="330" cy="452" r="13" fill="#1E2A24"></circle><text x="326" y="457">5</text>
+</g>
+</svg>
+<figcaption style="font-size: 13px; color: #55625B">Şematik çizim · Arundo donax (kargı kamışı)</figcaption>
+</figure>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<ol class="numarali">
+<li><span class="no">1</span><div><strong>Tüy salkımı</strong><span>Yaz sonunda çiçeklenir ama tohum üretmez; yalnızca kökten çoğalır.</span></div></li>
+<li><span class="no">2</span><div><strong>Şerit yapraklar</strong><span>Gövdeyi saran geniş yapraklar; hasatta ayrılır, biyokömür hattına gider.</span></div></li>
+<li><span class="no">3</span><div><strong>Boğumlu, içi boş gövde</strong><span>Bambuya benzer; lifleri yapraklı ağaç liflerine yakındır. Preslendiğinde dayanımlı levha olur.</span></div></li>
+<li><span class="no">4</span><div><strong>3–5 m boy</strong><span>İlkbaharda çok hızlı büyür; Akdeniz yazında da büyümeyi sürdürür.</span></div></li>
+<li><span class="no">5</span><div><strong>Rizom (kök gövde)</strong><span>Kesilen kargı her yıl yeniden sürer. Hammadde tükenmez, yenilenir.</span></div></li>
+</ol>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div class="mini"><span class="deger">100 t</span><span>Uygun koşulda hektar başına yıllık biyokütle (en fazla)</span></div>
+<div class="mini"><span class="deger">%46</span><span>Kuru kütledeki karbon oranı</span></div>
+<div class="mini"><span class="deger">0,08 W/mK</span><span>Kargı levhanın ısı iletkenliği (yalıtım sınıfında)</span></div>
+<div class="mini"><span class="deger">17–21 MJ/kg</span><span>Isıl değer: biyokömür için iyi hammadde</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="nasil" style="max-width: 1240px; margin: 0 auto; padding: 48px var(--g) 64px; display: flex; flex-direction: column; gap: 40px">
+<h2 class="h2">Dereden cepheye, cepheden karbon kaydına</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 20px">
+<div class="adim"><span class="etiket">01 · HASAT</span><h3>Dere temizliğinden kargı</h3><p>DSİ ve belediye ile yapılan bakım kesimlerinden gelir. Her balya kaynak dere ve tarihle kayda girer.</p></div>
+<div class="adim"><span class="etiket">02 · PRES</span><h3>Doğal bağlayıcılı lamel</h3><p>Sitrik asitle preslenir, yangın geciktirici ve UV koruması uygulanır, test edilmiş sınıfla sahaya çıkar.</p></div>
+<div class="adim"><span class="etiket">03 · UYUM</span><h3>Güneşi izleyen cephe</h3><p>Sensörler güneş açısını ve iç sıcaklığı okur. Sakinin ışık tercihini uygulamadan öğrenir, lamelleri buna göre döndürür.</p></div>
+<div class="adim"><span class="etiket">04 · KAYIT</span><h3>Ölçülen karbon</h3><p>Önlenen emisyon ve depolanan karbon tek bir defterde tutulur. Ömrü biten lamel biyokömür olur ve kalıcı giderim kredisi üretir.</p></div>
+</div>
+</section>
+
+<section id="golgelik" style="background: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="eyebrow">Tasarım</p>
+<h2 class="h2">İstediğimiz gölgelik</h2>
+<p class="lead">Kargı lamelli, güneşi izleyen, cepheden en fazla 0,50 m çıkan ve sökülüp yeniden takılabilen bir modül. Mimari çizimler aşağıda.</p>
+</div>
+<Cizimler />
+</div>
+</section>
+
+<section id="pasaport" style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g) 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 18px">
+<h2 class="h2">Her panelin bir karbon pasaportu var</h2>
+<p class="lead">Hangi dereden geldiği, kaç kilo kargı içerdiği, binada ne kadar karbon tuttuğu ve ölçülen enerji etkisi. Pasaport, binanın yaşam döngüsü analizine ve Enerji Kimlik Belgesi dosyasına doğrudan eklenir.</p>
+<p style="margin: 0; font-size: 14px; color: #55625B">Her ton tek bir sahibe bağlanır; çifte sayım yapılmaz.</p>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px; border: 1px solid #E2D8C3">
+<div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px"><span style="font-size: 22px; font-weight: 700">Panel KG-2026-0412</span><span style="font-size: 13px; background: #E4EEE8; color: #234A37; padding: 6px 12px; border-radius: 999px; font-weight: 600">Doğrulama bekliyor</span></div>
+<dl style="margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 15px">
+<div class="pas"><dt>Kaynak</dt><dd>Boğaçay, Konyaaltı</dd></div>
+<div class="pas"><dt>Hasat tarihi</dt><dd>14.10.2026</dd></div>
+<div class="pas"><dt>Kuru kargı</dt><dd>8,2 kg</dd></div>
+<div class="pas"><dt>Depolanan CO₂</dt><dd>13,9 kg</dd></div>
+<div class="pas"><dt>Yangın sınıfı</dt><dd>TS EN 13501-1 testi bekliyor</dd></div>
+<div class="pas"><dt>Ömür sonu</dt><dd>Biyokömür</dd></div>
+</dl>
+<span style="font-size: 12px; color: #55625B">Örnek pasaport</span>
+</div>
+</section>
+
+<section id="hesap" style="background: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="eyebrow">Karbon nasıl hesaplanır?</p>
+<h2 class="h2">Üç kaynak, üç formül, tek kayıt</h2>
+<p class="lead">Gölgeliğiniz üç şekilde karbon etkisi yaratır. Her biri ayrı ölçülür, kesintiler düşülür ve sonuç ton CO₂e olarak cüzdanınıza yazılır. Formüller açıktır; aynı veriyle herkes aynı sonucu bulur.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px">
+<div class="formul-kart">
+<span class="etiket">A · BİNADA DEPOLANAN KARBON</span>
+<p>Kargı büyürken havadaki CO₂'yi bağlar; lamel cephede durdukça bu karbon binada kalır.</p>
+<div class="formul">CO₂ = kuru kargı (kg) × 0,462 × 3,67</div>
+<p class="not">0,462: kuru kargıdaki karbon oranı. 3,67: karbondan CO₂'ye çevirme katsayısı (44/12). Sonuç: 1 kg kuru kargı ≈ 1,69 kg CO₂.</p>
+</div>
+<div class="formul-kart">
+<span class="etiket">B · ÖNLENEN EMİSYON</span>
+<p>Gölge klimayı daha az çalıştırır. Azalan elektrik, santralde yakılmayan yakıt demektir.</p>
+<div class="formul">CO₂ = (kWh<sub>kontrol</sub> − kWh<sub>gölgeli</sub>) × 0,478 t/MWh</div>
+<p class="not">Aynı blokta, aynı cephe ve kattaki gölgesiz kontrol dairesiyle karşılaştırılır. 0,478: Enerji Bakanlığının dağıtım hattına bağlı tüketim noktası emisyon faktörü.</p>
+</div>
+<div class="formul-kart">
+<span class="etiket">C · BİYOKÖMÜR (KALICI GİDERİM)</span>
+<p>Kesim artıkları ve ömrü biten lameller biyokömüre dönüşür; karbon yüzyıllarca toprakta kalır.</p>
+<div class="formul">CO₂ = biyokömür (kg) × C oranı × kalıcılık payı × 3,67 − süreç emisyonu</div>
+<p class="not">Pratikte 1 t kuru kargı artığı ≈ 0,5 t CO₂ kalıcı giderim. C oranı ve kalıcılık laboratuvarda ölçülür.</p>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 32px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: 26px">Her hesaptan düşülenler</h3>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.55; color: #3D4A43">
+<li><strong>Üretim ve nakliye emisyonu:</strong> pres, yangın geciktirici, motor, sensör ve taşıma.</li>
+<li><strong>Yıllık bakım:</strong> emprenye yenileme, motor bakımı ve değişen lamellerin emisyonu.</li>
+<li><strong>Güvenlik tamponu:</strong> belirsizliğe karşı tonların bir kısmı ayrılır, satılmaz.</li>
+<li><strong>Çifte sayım kontrolü:</strong> her ton seri numarasıyla tek sahibe yazılır.</li>
+<li><strong>Bağımsız doğrulama:</strong> yılda bir kez akredite doğrulayıcı hesabı onaylar; onaylanmayan ton satılmaz.</li>
+</ul>
+</div>
+<div style="border: 1px solid #E2D8C3; border-radius: 24px; padding: clamp(18px, 4vw, 24px); display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px">Örnek: 20 daireli bir blok, 1 yıl</h3>
+<table class="ornek">
+<thead><tr><th scope="col">Kalem</th><th scope="col">Varsayım</th><th scope="col" style="text-align: right">t CO₂e</th></tr></thead>
+<tbody>
+<tr><td>A · Depolanan</td><td class="v">150 m² lamel × 15 kg/m²</td><td class="t">≈ 3,8 (bir kez)</td></tr>
+<tr><td>B · Önlenen</td><td class="v">10 MWh daha az klima × 0,478</td><td class="t">≈ 4,8 / yıl</td></tr>
+<tr><td>Kesintiler</td><td class="v">Bakım + %10 güvenlik tamponu</td><td class="t">≈ 0,5 / yıl</td></tr>
+<tr><td><strong>Satılabilir</strong></td><td class="v">Emlak Konut'a</td><td class="t" style="font-weight: 700">≈ 4,3 / yıl</td></tr>
+</tbody>
+</table>
+<p style="margin: 0; font-size: 13px; color: #55625B">Varsayımsal örnektir; kendi binanız için aşağıdaki hesaplayıcıyı kullanın.</p>
+</div>
+</div>
+</div>
+</section>
+
+<Hesaplayici />
+
+<section id="biyokomur" style="background: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 860px">
+<p class="eyebrow">Biyokömür nedir?</p>
+<h2 class="h2">Lamelin ömrü bitince karbon toprağa kilitlenir</h2>
+<p class="lead">Biyokömür, bitki artığının oksijensiz ortamda ısıtılmasıyla (piroliz) elde edilen, karbonca çok zengin, kömüre benzeyen bir malzemedir. Yakılmaz; toprağa veya betona karıştırılır. İçindeki karbon yüzyıllarca kalır, bu yüzden en değerli karbon kredisi türlerinden birini üretir.</p>
+</div>
+<ol class="akis">
+<li class="kutu"><span class="etiket">1 · TOPLAMA</span><strong>Kargı artığı</strong><span>Yapraklar, kesim artıkları ve ömrü biten lameller kurutulur.</span></li>
+<li class="ok" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></li>
+<li class="kutu"><span class="etiket">2 · PİROLİZ</span><strong>Oksijensiz ısıtma</strong><span>450–700 °C'de yakmadan ısıtılır; çıkan gaz sürecin enerjisini karşılar.</span></li>
+<li class="ok" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></li>
+<li class="kutu"><span class="etiket">3 · BİYOKÖMÜR</span><strong>Karbonca zengin katı</strong><span>Kargının kütlesinin %15–24'ü biyokömüre döner; karbon oranı %90'a çıkabilir.</span></li>
+<li class="ok" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></li>
+<li class="kutu koyu"><span class="etiket">4 · KALICI DEPO</span><strong>Toprak ve beton</strong><span>Antalya seralarında toprak düzenleyici veya betonda katkı olur; kalıcı giderim kredisi üretir.</span></li>
+</ol>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px">
+<div class="bilgi"><span class="deger">≈ 0,5 t</span><span>CO₂ kalıcı giderim / 1 t kuru kargı artığı</span></div>
+<div class="bilgi"><span class="deger">134 €</span><span>Kalıcı giderim kredisi endeksi (Puro CORC, Eylül 2026)</span></div>
+<div class="bilgi"><span class="deger">100+ yıl</span><span>Biyokömür kredisi için istenen kalıcılık süresi</span></div>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3D4A43; max-width: 860px">Neden önemli: lamel cephede durdukça karbon binada bekler. Ömrü bitince yakılırsa karbon havaya döner; biyokömür yapılırsa kalıcı olarak saklanır. Bu döngü, projeyi "gölgelik"ten "karbon giderim sistemine" çevirir.</p>
+</div>
+</section>
+
+<section id="emlak-konut" style="background: #1E2A24; color: #F6F1E7">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 860px">
+<p class="eyebrow" style="color: #E3A33C">Emlak Konut Karbon Alım Programı</p>
+<h2 class="h2" style="width: 932px; max-width: 100%">Gölgeliğinizin ürettiği karbon Emlak Konut havuzunda toplanır, kâr payı kazanırsınız.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #D5DED8">KARGI-GÖLGE kullanan her site ve daire, doğrulanmış karbon birimlerini garantili alıcıya satar. Alıcı Emlak Konut'tur: yılın başında ilan ettiği sabit fiyattan, programdaki tüm doğrulanmış tonları alır. Satılan şey devletin dağıttığı ETS kotası değil, sizin ürettiğiniz doğrulanmış karbon kredisidir.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 16px">
+<li class="ek-adim"><span class="no">1</span><span class="ad">Katılım</span><span>Kat malikleri kurulu kararıyla site programa katılır; karbon hakları sözleşmesi imzalanır.</span></li>
+<li class="ek-adim"><span class="no">2</span><span class="ad">Ölçüm</span><span>Sensör ve sayaç verisi her ay otomatik toplanır, uygulamada görünür.</span></li>
+<li class="ek-adim"><span class="no">3</span><span class="ad">Doğrulama</span><span>Yılda bir akredite doğrulayıcı hesabı onaylar; tonlar seri numarası alır.</span></li>
+<li class="ek-adim"><span class="no">4</span><span class="ad">Teklif</span><span>Emlak Konut'un alım teklifi cüzdanınıza düşer: ton × ilan edilen fiyat.</span></li>
+<li class="ek-adim"><span class="no">5</span><span class="ad">Ödeme</span><span>Onaylayınca ödeme site hesabına aidat indirimi ya da daire sahibinin IBAN'ına yapılır.</span></li>
+</ol>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
+<div class="acik-kart">
+<h3>Satış bedeli nasıl paylaşılır? (örnek dağılım)</h3>
+<div style="display: flex; height: 36px; border-radius: 10px; overflow: hidden; font-size: 13px; font-weight: 600" role="img" aria-label="Örnek dağılım: hak sahibi yüzde 70, KARGI-GÖLGE yüzde 20, doğrulama ve tampon yüzde 10">
+<span style="flex: 70; background: #2F5D46; color: #FFFFFF; display: flex; align-items: center; padding-left: 10px; white-space: nowrap; overflow: hidden">Hak sahibi %70</span>
+<span style="flex: 20; background: #B8873A; color: #1E2A24; display: flex; align-items: center; padding-left: 8px">%20</span>
+<span style="flex: 10; background: #8A968F; color: #1E2A24; display: flex; align-items: center; padding-left: 6px">%10</span>
+</div>
+<ul>
+<li><strong>%70 hak sahibi:</strong> site ortak hesabı veya daire sahipleri (cephe payına göre)</li>
+<li><strong>%20 KARGI-GÖLGE:</strong> ölçüm, kayıt, bakım ve raporlama hizmeti</li>
+<li><strong>%10 doğrulama ve tampon:</strong> bağımsız denetim ücreti ve güvenlik payı</li>
+</ul>
+<p style="margin: 0; font-size: 13px; color: #55625B">Oranlar örnektir; pilot sonrası Emlak Konut ile sözleşmede netleşir.</p>
+</div>
+<div class="acik-kart">
+<h3>Emlak Konut aldığı karbonla ne yapar?</h3>
+<ul>
+<li><strong>Kendi hedefi için kullanır:</strong> sürdürülebilirlik raporunda ve proje yaşam döngüsü belgelerinde iptal edip (retire) beyan eder.</li>
+<li><strong>Portföy olarak toplar:</strong> yüzlerce binanın küçük tonlarını tek programda birleştirir; tek binanın karşılayamayacağı doğrulama maliyeti paylaşılır.</li>
+<li><strong>İleride yeniden satar:</strong> ulusal karbon kredisi sistemi (Turkuaz Kredi) yürürlüğe girince ETS kapsamındaki sanayi tesislerine.</li>
+</ul>
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px; font-size: 14px; color: #3D4A43">Bir ton yalnızca bir kez satılır. Emlak Konut'a satılan ton, başka kuruma veya bireye tekrar satılamaz.</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<a href="/iletisim?konu=program" class="btn btn-vurgu">Sitemi programa kaydet</a>
+<span style="font-size: 15px; color: #C9D3CD">Önerilen alım fiyatı: <strong style="color: #F6F1E7">1.400 TL / t CO₂e (≈ 25 €)</strong> · 2027 dönemi</span>
+</div>
+</div>
+</section>
+
+<section id="uygulama" style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="eyebrow">Uygulama nasıl kullanılır?</p>
+<h2 class="h2">Altı adımda kurulumdan ilk ödemeye</h2>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 16px">
+<li class="app-adim"><span class="no">1</span><div><span class="ad">İndir ve giriş yap</span><span>App Store veya Google Play'den indir, telefon numaranla kayıt ol.</span></div></li>
+<li class="app-adim"><span class="no">2</span><div><span class="ad">Daireni doğrula</span><span>Site yönetiminin verdiği davet koduyla dairene bağlan; malik veya kiracı olduğunu seç.</span></div></li>
+<li class="app-adim"><span class="no">3</span><div><span class="ad">Paneli eşle</span><span>Penceredeki modülün QR kodunu okut; karbon pasaportu hesabına eklensin.</span></div></li>
+<li class="app-adim"><span class="no">4</span><div><span class="ad">Tercihini ayarla</span><span>Işık kaydırıcısıyla serin/loş veya aydınlık seç; sistem iki haftada alışkanlığını öğrenir.</span></div></li>
+<li class="app-adim"><span class="no">5</span><div><span class="ad">Cüzdanını izle</span><span>Ölçülen tonlar önce "ölçüldü", denetimden sonra "doğrulandı" olarak cüzdana düşer.</span></div></li>
+<li class="app-adim"><span class="no">6</span><div><span class="ad">Emlak Konut'a sat</span><span>Teklif gelince ödeme yöntemini seç, sözleşmeyi onayla; dekont ve sertifika cüzdanda kalır.</span></div></li>
+</ol>
+<div><a href="/uygulama" class="btn btn-cizgi">Uygulama ekranlarını gör</a></div>
+</section>
+
+<section id="kredi" style="background: #E9DFC9">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
+<h2 class="h2">Antalya'da yerinde görebileceğiniz karbon</h2>
+<p class="lead">Binaların ürettiği tonların ana alıcısı Emlak Konut'tur. Biyokömürden gelen kalıcı giderim kredilerini diğer şirketlere de sunuyoruz; bireyler iklim katkısıyla destek olur. Karbon kotası (ETS tahsisatı) satmıyoruz; tahsisatı yalnızca devlet dağıtır.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px">
+<div class="kredi-kart">
+<span class="etiket">ŞİRKETLER</span>
+<h3>Biyokömür giderim kredisi</h3>
+<p>Kargı artığından yapılan biyokömürle kalıcı karbon giderimi. Bağımsız standarda göre doğrulanır.</p>
+<span class="fiyat">≈ 7.500 TL / t CO₂</span>
+<span style="font-size: 13px; color: #55625B">Puro CORC endeksi 134 € baz alındı</span>
+<a href="/iletisim?konu=kredi" class="btn btn-koyu alt-btn">Kredi talebi gönder</a>
+</div>
+<div class="kredi-kart">
+<span class="etiket">ŞİRKETLER</span>
+<h3>Ön alım sözleşmesi</h3>
+<p>Gelecek yılların kredilerini bugünden ayırın; ödemeniz yeni pilot binaları ve piroliz kapasitesini finanse eder.</p>
+<span class="fiyat">Teklifle</span>
+<a href="/iletisim?konu=gorusme" class="btn btn-cizgi alt-btn">Görüşme planla</a>
+</div>
+<div class="kredi-kart" style="background: #2F5D46; color: #FFFFFF">
+<span class="etiket" style="color: #D7E6DD">BİREYLER</span>
+<h3>İklim katkısı</h3>
+<p style="color: #E3EEE7">Bir lamelin üretimine ortak olun, uygulamadan hangi binada ne kadar serinlik ve karbon etkisi yarattığını izleyin.</p>
+<span class="fiyat">250 TL'den</span>
+<a href="/uygulama" class="btn btn-beyaz alt-btn">Uygulamayı indir</a>
+</div>
+</div>
+</div>
+</section>
+
+<section id="pilot" style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 class="h2">Emlak Konut pilotu: 1 blok, 3 ay</h2>
+<p class="lead">Güney/batı cephesinde 1–2 prototip modül. Aynı bloktaki gölgeli ve kontrol dairelerinde soğutma, iç sıcaklık ve gün ışığı karşılaştırılır.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px">
+<li class="ay"><span class="no">1. ay</span><span>Yangın ve rüzgâr testi, cephe ankrajı, sensör kurulumu, başlangıç ölçümü</span></li>
+<li class="ay"><span class="no">2. ay</span><span>Gölgeli / kontrol karşılaştırması, sakin tercihlerinin uygulamadan öğrenilmesi</span></li>
+<li class="ay"><span class="no">3. ay</span><span>kWh farkı, TS 825 / EKB etkisi, karbon pasaportu ve kredi ön hesabı raporu</span></li>
+</ol>
+</section>
+
+<section id="sss" style="background: #FFFFFF">
+<div style="max-width: 1000px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 24px">
+<h2 class="h2">Sık sorulanlar</h2>
+<dl style="margin: 0; display: flex; flex-direction: column; gap: 0">
+<div class="soru"><dt>Karbon kotası mı satıyorum?</dt><dd>Hayır. Kota (ETS tahsisatı) devletin sanayiye dağıttığı emisyon hakkıdır. Siz binanızın ürettiği, bağımsız olarak doğrulanmış karbon kredisinden temettü ödemesi kazanırsınız.</dd></div>
+<div class="soru"><dt>Paramı ne zaman alırım?</dt><dd>Yıllık doğrulama tamamlandıktan ve teklifi onayladıktan sonra, sözleşmede yazan sürede. Doğrulanmayan ton için ödeme yapılmaz.</dd></div>
+<div class="soru"><dt>Güneşli gün sayısı neden hesapta?</dt><dd>Gölgeliğin etkisi güneşle artar. Hesaplayıcı 290 güneşli günü (Antalya'da yağışsız gün ortalaması) referans alır; daha az güneş alan bölgede sonuç orantılı düşer.</dd></div>
+<div class="soru"><dt>Taşınırsam ya da daireyi satarsam?</dt><dd>Karbon hakkı daireye bağlıdır. Satılmamış tonlar yeni malike geçer; sattığınız tonların bedeli sizde kalır.</dd></div>
+<div class="soru"><dt>Verilerim güvende mi?</dt><dd>Daire verisi KVKK kapsamında açık rızayla işlenir. Herkese açık panellerde yalnızca bina toplamı görünür.</dd></div>
+<div class="soru" style="border-bottom: 1px solid #E2D8C3"><dt>Kiracıyım, ben de kullanabilir miyim?</dt><dd>Evet. Lamel ayarı, tasarruf ve pasaport ekranları kiracıya açıktır. Satış onayı ve ödeme ise malike veya site yönetimine aittir.</dd></div>
+</dl>
+</div>
+</section>
+
+</Layout>
+
+<style>
+.etiket { font-size: 15px; font-weight: 700; color: #2F5D46; }
+
+/* Kargı bölümü */
+.numarali { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.numarali li { display: flex; gap: 14px; }
+.numarali .no { width: 30px; height: 30px; border-radius: 999px; background: #1E2A24; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.numarali div { display: flex; flex-direction: column; gap: 2px; }
+.numarali strong { font-size: 17px; }
+.numarali div span { font-size: 15px; line-height: 1.5; color: #3D4A43; }
+.mini { background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #55625B; }
+.mini .deger { font-size: clamp(20px, 5.5vw, 26px); font-weight: 700; color: #1E2A24; }
+
+/* Nasıl çalışır */
+.adim { background: #FFFFFF; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+.adim h3 { margin: 0; font-size: 21px; }
+.adim p { margin: 0; font-size: 15px; line-height: 1.55; color: #3D4A43; }
+
+/* Pasaport */
+.pas { display: flex; flex-direction: column; gap: 4px; }
+.pas dt { color: #55625B; font-size: 13px; }
+.pas dd { margin: 0; font-weight: 600; }
+
+/* Formüller */
+.formul-kart { background: #F6F1E7; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.formul-kart p { margin: 0; font-size: 15px; line-height: 1.55; color: #3D4A43; }
+.formul-kart p.not { font-size: 14px; line-height: 1.5; color: #55625B; }
+.formul { background: #1E2A24; color: #F6F1E7; border-radius: 14px; padding: 16px; font-size: 17px; line-height: 1.6; }
+.ornek { width: 100%; border-collapse: collapse; font-size: 15px; }
+.ornek th { padding: 8px 0; font-weight: 600; text-align: left; color: #55625B; }
+.ornek tbody tr { border-top: 1px solid #E2D8C3; }
+.ornek td { padding: 10px 8px 10px 0; vertical-align: top; }
+.ornek td.v { color: #3D4A43; }
+.ornek td.t { padding-right: 0; text-align: right; font-weight: 600; }
+@media (max-width: 420px) { .ornek { font-size: 14px; } }
+
+/* Biyokömür */
+.akis { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.akis .kutu { flex: 1 1 200px; background: #F6F1E7; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+.akis .kutu .etiket { font-size: 13px; }
+.akis .kutu strong { font-size: 17px; }
+.akis .kutu > span:last-child { font-size: 14px; line-height: 1.5; color: #3D4A43; }
+.akis .kutu.koyu { background: #1E2A24; color: #F6F1E7; }
+.akis .kutu.koyu .etiket { color: #E3A33C; }
+.akis .kutu.koyu > span:last-child { color: #D5DED8; }
+.akis .ok { flex: 0 0 auto; display: flex; align-items: center; color: #B8873A; }
+@media (max-width: 700px) {
+  .akis .ok { width: 100%; justify-content: center; }
+  .akis .ok svg { transform: rotate(90deg); }
+}
+.bilgi { border: 1px solid #E2D8C3; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #55625B; }
+.bilgi .deger { font-size: 30px; font-weight: 700; color: #1E2A24; }
+
+/* Emlak Konut */
+.ek-adim { background: #2A3830; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; color: #C9D3CD; }
+.ek-adim .no { font-size: 28px; font-weight: 700; color: #E3A33C; line-height: normal; }
+.ek-adim .ad { font-weight: 600; font-size: 17px; color: #F6F1E7; line-height: normal; }
+.acik-kart { background: #F6F1E7; color: #1E2A24; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.acik-kart h3 { margin: 0; font-size: 24px; }
+.acik-kart ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; color: #3D4A43; }
+.btn-vurgu { background: #E3A33C; color: #1E2A24; font-weight: 700; }
+.btn-vurgu:hover { background: #F0B655; color: #1E2A24; }
+
+/* Uygulama adımları */
+.app-adim { background: #FFFFFF; border-radius: 22px; padding: 24px; display: flex; gap: 18px; }
+.app-adim .no { font-size: 34px; font-weight: 700; color: #2F5D46; min-width: 34px; line-height: 1; }
+.app-adim div { display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.5; color: #3D4A43; }
+.app-adim .ad { font-weight: 600; font-size: 18px; color: #1E2A24; line-height: normal; }
+
+/* Kredi */
+.kredi-kart { background: #FFFFFF; border-radius: 24px; padding: 30px; display: flex; flex-direction: column; gap: 14px; }
+.kredi-kart .etiket { font-size: 13px; letter-spacing: 1px; }
+.kredi-kart h3 { margin: 0; font-size: 26px; }
+.kredi-kart p { margin: 0; font-size: 15px; line-height: 1.55; color: #3D4A43; }
+.kredi-kart .fiyat { font-size: 30px; font-weight: 700; }
+.alt-btn { margin-top: auto; padding: 14px 20px; }
+.alt-btn.btn-cizgi { padding: 13px 20px; }
+.btn-beyaz { background: #FFFFFF; color: #1E2A24; }
+.btn-beyaz:hover { background: #F6F1E7; color: #1E2A24; }
+
+/* Pilot */
+.ay { background: #FFFFFF; border-radius: 18px; padding: 20px 22px; display: flex; gap: 16px; font-size: 15px; line-height: 1.5; }
+.ay .no { font-weight: 700; color: #2F5D46; min-width: 56px; }
+
+/* SSS */
+.soru { border-top: 1px solid #E2D8C3; padding: 20px 0; display: flex; flex-direction: column; gap: 8px; }
+.soru dt { font-weight: 600; font-size: 18px; }
+.soru dd { margin: 0; font-size: 15px; line-height: 1.6; color: #3D4A43; }
+</style>

@@ -1,0 +1,8 @@
+Mimari çizimleri bu klasöre şu adlarla koyun:
+
+  cizim-1.jpg  → Çizim 1 · Cephe görünüşü
+  cizim-2.jpg  → Çizim 2 · Modül detayı ve kesit
+  cizim-3.jpg  → Çizim 3 · Perspektif
+
+Dosya bulunan kutuda çizim görünür; bulunmayan kutuda kesikli yer tutucu kalır.
+Değişiklik bir sonraki `npm run build` (veya Netlify yayını) ile siteye yansır.

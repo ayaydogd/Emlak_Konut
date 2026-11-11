@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// ?konu=... ile gelen butonlar ilgili seçeneği önceden seçer (aşağıdaki script).
+const konular: [string, string][] = [
+  ['teklif', 'Gölgelik teklifi'],
+  ['program', 'Sitemi Emlak Konut programına kaydet'],
+  ['kredi', 'Biyokömür kredi talebi'],
+  ['gorusme', 'Ön alım sözleşmesi görüşmesi'],
+  ['uygulama', 'Uygulama çıkınca haber ver'],
+  ['diger', 'Diğer'],
+];
+---
+<Layout title="İletişim — KARGI-GÖLGE" description="Teklif, Emlak Konut karbon programına kayıt ve kredi talepleri için KARGI-GÖLGE iletişim formu.">
+<section style="max-width: 1240px; margin: 0 auto; padding: 48px var(--g) 88px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 48px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<p class="eyebrow">İletişim</p>
+<h1 class="h2">Teklif, program kaydı ve kredi talepleri</h1>
+<p class="lead">Formu doldurun; en geç iki iş günü içinde dönüş yapalım. Site yönetimi olarak başvuruyorsanız blok ve daire sayısını mesajınıza eklemeniz hesabı hızlandırır.</p>
+</div>
+
+<form name="iletisim" method="POST" action="/tesekkurler" data-netlify="true" netlify-honeypot="bot-field" class="form">
+<input type="hidden" name="form-name" value="iletisim">
+<p hidden><label>Bu alanı boş bırakın <input name="bot-field"></label></p>
+
+<label class="alan"><span>Ad soyad *</span>
+<input type="text" name="ad" autocomplete="name" required></label>
+
+<label class="alan"><span>E-posta *</span>
+<input type="email" name="eposta" autocomplete="email" required></label>
+
+<label class="alan"><span>Telefon</span>
+<input type="tel" name="telefon" autocomplete="tel" inputmode="tel"></label>
+
+<label class="alan"><span>Kurum / site adı</span>
+<input type="text" name="kurum" autocomplete="organization"></label>
+
+<label class="alan"><span>Konu *</span>
+<select name="konu" id="konu" required>
+{konular.map(([v, ad]) => <option value={v}>{ad}</option>)}
+</select></label>
+
+<label class="alan"><span>Mesajınız *</span>
+<textarea name="mesaj" rows="6" required></textarea></label>
+
+<label class="onay">
+<input type="checkbox" name="kvkk" value="onaylandi" required>
+<span><a href="/kvkk" target="_blank" rel="noopener">KVKK aydınlatma metnini</a> okudum; kişisel verilerimin bu talebe yanıt verilmesi amacıyla işlenmesine açık rıza veriyorum. *</span>
+</label>
+
+<button type="submit" class="btn btn-yesil">Gönder</button>
+<p style="margin: 0; font-size: 13px; color: #55625B">* ile işaretli alanlar zorunludur.</p>
+</form>
+</section>
+</Layout>
+
+<style>
+.form { background: #FFFFFF; border-radius: 24px; padding: clamp(20px, 4vw, 32px); display: flex; flex-direction: column; gap: 18px; }
+.onay { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: #3D4A43; }
+.onay input { width: 20px; height: 20px; margin: 1px 0 0; flex-shrink: 0; accent-color: #2F5D46; }
+.form .btn { align-self: flex-start; }
+</style>
+
+<script>
+const konu = new URLSearchParams(location.search).get('konu');
+const secim = document.getElementById('konu') as HTMLSelectElement | null;
+if (konu && secim && [...secim.options].some((o) => o.value === konu)) secim.value = konu;
+</script>

@@ -1,0 +1,137 @@
+---
+import { VARSAYILAN, hesapla } from '../lib/karbon';
+
+// İlk değerler sunucuda hesaplanır; JS yüklenince aynı fonksiyon canlı günceller.
+const v = hesapla(VARSAYILAN);
+const d = VARSAYILAN as Record<string, string | number>;
+
+type Kaydirici = { tip: 'range'; key: string; etiket: string; min: number; max: number; step: number; on?: string; son?: string; out?: string };
+type Secim = { tip: 'select'; key: string; etiket: string; secenekler: [string, string][] };
+type Alan = Kaydirici | Secim;
+
+const gruplar: { baslik: string; alanlar: Alan[] }[] = [
+  {
+    baslik: '1 · Bina ve iklim',
+    alanlar: [
+      { tip: 'select', key: 'yon', etiket: 'Cephe yönü', secenekler: [['bati', 'Batı (en sıcak, katsayı 1,00)'], ['guneybati', 'Güneybatı (0,95)'], ['guney', 'Güney (0,85)'], ['dogu', 'Doğu (0,70)']] },
+      { tip: 'range', key: 'gunes', etiket: 'Güneşli gün sayısı / yıl', min: 200, max: 340, step: 5, son: ' gün' },
+      { tip: 'range', key: 'daire', etiket: 'Gölgelik takılan daire', min: 1, max: 100, step: 1, son: ' daire' },
+      { tip: 'range', key: 'kwh', etiket: 'Daire başı yıllık klima tüketimi', min: 500, max: 5000, step: 100, son: ' kWh' },
+    ],
+  },
+  {
+    baslik: '2 · Gölgelik',
+    alanlar: [
+      { tip: 'range', key: 'alan', etiket: 'Daire başı lamel alanı', min: 2, max: 20, step: 0.5, son: ' m²' },
+      { tip: 'select', key: 'yog', etiket: 'Lamel tipi', secenekler: [['12', 'Hafif · 12 kg kargı / m²'], ['15', 'Standart · 15 kg kargı / m²'], ['18', 'Yoğun · 18 kg kargı / m²']] },
+      { tip: 'range', key: 'azalma', etiket: 'Beklenen soğutma azalması', min: 5, max: 60, step: 1, on: '%' },
+      { tip: 'select', key: 'ef', etiket: 'Elektrik emisyon faktörü', secenekler: [['0.478', '0,478 t/MWh · konut (dağıtım hattı)'], ['0.445', '0,445 t/MWh · iletim hattı'], ['0.442', '0,442 t/MWh · Türkiye üretim ortalaması']] },
+    ],
+  },
+  {
+    baslik: '3 · Üretim, bakım ve ömür',
+    alanlar: [
+      { tip: 'range', key: 'uretim', etiket: 'Üretim + nakliye emisyonu', min: 1, max: 8, step: 0.5, son: ' kg CO₂/m²' },
+      { tip: 'range', key: 'bakim', etiket: 'Yıllık bakım emisyonu', min: 0, max: 2, step: 0.1, son: ' kg CO₂/m²' },
+      { tip: 'range', key: 'degisim', etiket: 'Yıllık değişen lamel', min: 0, max: 15, step: 1, on: '%' },
+      { tip: 'select', key: 'omur', etiket: 'Lamel ömrü', secenekler: [['10', '10 yıl'], ['15', '15 yıl'], ['20', '20 yıl'], ['25', '25 yıl']] },
+      { tip: 'range', key: 'bio', etiket: 'Biyokömüre giden pay', min: 0, max: 100, step: 5, on: '%' },
+      { tip: 'range', key: 'tampon', etiket: 'Güvenlik tamponu', min: 5, max: 25, step: 1, on: '%' },
+    ],
+  },
+  {
+    baslik: '4 · Satış',
+    alanlar: [
+      { tip: 'range', key: 'fiyat', etiket: 'Emlak Konut alım fiyatı', min: 500, max: 8000, step: 100, son: ' TL / t', out: 'fiyatTxt' },
+      { tip: 'range', key: 'pay', etiket: 'Hak sahibi payı', min: 50, max: 90, step: 5, on: '%' },
+    ],
+  },
+];
+
+const satirlar: [string, string, string, string][] = [
+  ['B · Önlenen emisyon', '', 'B', ' t/yıl'],
+  ['C · Değişen lamelden biyokömür', '+ ', 'bioYil', ' t/yıl'],
+  ['Bakım kesintisi', '− ', 'bakimT', ' t/yıl'],
+  ['Güvenlik tamponu', '− %', 'tampon', ''],
+  ['A · Binada depolanan (bir kez)', '', 'A', ' t'],
+  ['Üretim emisyonu (bir kez)', '− ', 'prod', ' t'],
+  ['Ömür sonu biyokömür', '+ ', 'eol', ' t'],
+];
+---
+<section id="hesapla" style="max-width: 1240px; margin: 0 auto; padding: 88px var(--g); display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="eyebrow">Karbon hesaplayıcı</p>
+<h2 class="h2">Binanızın karbonunu ve kazancınızı hesaplayın</h2>
+<p class="lead">Değerleri değiştirin, sonuç anında güncellenir. Varsayılanlar Antalya ve pilot varsayımlarıdır.</p>
+</div>
+<form id="karbon-form" style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start" onsubmit="return false">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+{gruplar.map((g) => (
+<fieldset class="grup">
+<legend>{g.baslik}</legend>
+{g.alanlar.map((a) => a.tip === 'select' ? (
+<label class="alan"><span>{a.etiket}</span>
+<select name={a.key}>
+{a.secenekler.map(([val, ad]) => <option value={val} selected={String(d[a.key]) === val}>{ad}</option>)}
+</select></label>
+) : (
+<label class="alan"><span class="ust"><span>{a.etiket}</span><strong>{a.on}<span data-out={a.out ?? a.key}>{v[a.out ?? a.key]}</span>{a.son}</strong></span>
+<input type="range" name={a.key} min={a.min} max={a.max} step={a.step} value={d[a.key]}></label>
+))}
+</fieldset>
+))}
+</div>
+
+<div class="sonuc">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: #E3A33C">SONUÇ · <span data-out="daire">{v.daire}</span> DAİRE</span>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #C9D3CD">Yıllık satılabilir karbon</span><span style="font-size: clamp(38px, 9vw, 48px); font-weight: 700; letter-spacing: -1px"><span data-out="yillik">{v.yillik}</span> t</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #C9D3CD">Yıllık satış bedeli · hak sahibine</span><span style="font-size: 32px; font-weight: 700; color: #E3A33C"><span data-out="hakTL">{v.hakTL}</span> TL</span><span style="font-size: 13px; color: #C9D3CD">Daire başı ≈ <span data-out="daireTL">{v.daireTL}</span> TL / yıl</span></div>
+<div style="display: flex; flex-direction: column; gap: 0; font-size: 14px">
+{satirlar.map(([ad, on, key, son]) => (
+<div class="satir"><span>{ad}</span><strong>{on}<span data-out={key}>{v[key]}</span>{son}</strong></div>
+))}
+<div class="satir" style="padding: 12px 0; font-size: 16px"><span><span data-out="omur">{v.omur}</span> yıllık net toplam</span><strong><span data-out="omurToplam">{v.omurToplam}</span> t</strong></div>
+</div>
+<div style="background: #2A3830; border-radius: 16px; padding: 14px; font-size: 13px; line-height: 1.5; color: #D5DED8">Daire başı yılda ≈ <span data-out="kwhDaire">{v.kwhDaire}</span> kWh daha az klima. A satışa henüz dahil değil: binada depolanan karbonun sertifika yöntemi AB'de hazırlanıyor; kayıtta tutulur.</div>
+</div>
+</form>
+</section>
+
+<style>
+.grup { margin: 0; border: none; background: #FFFFFF; border-radius: 24px; padding: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 20px; min-width: 0; }
+.grup legend { float: left; width: 100%; grid-column: 1 / -1; padding: 0; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.sonuc { flex: 1 1 340px; min-width: 0; background: #1E2A24; color: #F6F1E7; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+.satir { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #3A4A41; }
+.satir strong { white-space: nowrap; }
+@media (min-width: 1000px) {
+  .sonuc { position: sticky; top: 24px; }
+}
+@media (max-width: 480px) {
+  .grup { padding: 20px; }
+  .sonuc { padding: 22px; }
+}
+</style>
+
+<script>
+import { VARSAYILAN, hesapla, type Girdiler } from '../lib/karbon';
+
+const form = document.getElementById('karbon-form') as HTMLFormElement | null;
+if (form) {
+  const ciktilar = form.querySelectorAll<HTMLElement>('[data-out]');
+  const guncelle = () => {
+    const s: Record<string, string | number> = { ...VARSAYILAN };
+    for (const el of form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[name], select[name]')) {
+      s[el.name] = el.type === 'range' ? Number(el.value) : el.value;
+    }
+    const v = hesapla(s as Girdiler);
+    for (const el of ciktilar) {
+      const deger = v[el.dataset.out!];
+      if (deger !== undefined) el.textContent = deger;
+    }
+  };
+  form.addEventListener('input', guncelle);
+  form.addEventListener('change', guncelle);
+  // Tarayıcı geri dönüşte form değerlerini hatırlayabilir; sonucu onlarla eşitle.
+  guncelle();
+}
+</script>
