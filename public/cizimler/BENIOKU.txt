@@ -1,8 +1,10 @@
-Mimari çizimleri bu klasöre şu adlarla koyun:
+"İstediğimiz gölgelik" bölümündeki çizimler bu klasördedir:
 
-  cizim-1.jpg  → Çizim 1 · Cephe görünüşü
-  cizim-2.jpg  → Çizim 2 · Modül detayı ve kesit
-  cizim-3.jpg  → Çizim 3 · Perspektif
+  gorunus.jpg      → Cephe görünüşü (sola dayalı)
+  detay.jpg        → Bağlantı detayı (sağa dayalı)
+  perspektif.jpg   → Perspektif (sola dayalı)
+  son-gorunus.jpg  → Son cephe görünüşü (büyüteçli, tam genişlik)
 
-Dosya bulunan kutuda çizim görünür; bulunmayan kutuda kesikli yer tutucu kalır.
-Değişiklik bir sonraki `npm run build` (veya Netlify yayını) ile siteye yansır.
+Bir çizimi değiştirmek için aynı adla yeni dosyayı koyun.
+Dosya bulunmazsa yerinde kesikli yer tutucu görünür.
+Metinler src/components/Cizimler.astro dosyasındadır.

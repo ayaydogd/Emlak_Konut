@@ -1,6 +1,7 @@
 // Karbon hesaplayıcı — formüller tasarımdaki renderVals() ile birebir aynıdır.
 
 export type Girdiler = {
+  sehir: string;
   yon: string;
   gunes: number;
   daire: number;
@@ -20,7 +21,7 @@ export type Girdiler = {
 };
 
 export const VARSAYILAN: Girdiler = {
-  yon: 'bati', gunes: 290, daire: 20, kwh: 2000, alan: 7.5, yog: '15', azalma: 25, ef: '0.478',
+  sehir: 'Antalya', yon: 'bati', gunes: 290, daire: 20, kwh: 2000, alan: 7.5, yog: '15', azalma: 25, ef: '0.478',
   uretim: 3, bakim: 0.3, degisim: 3, omur: '15', bio: 80, tampon: 10, fiyat: 1400, pay: 70,
 };
 
@@ -47,7 +48,7 @@ export function hesapla(s: Girdiler): Record<string, string> {
   const omurToplam = yillik * omur + eol - prod;
   const hak = yillik * s.fiyat * s.pay / 100;
   return {
-    gunes: n(s.gunes), daire: n(s.daire), kwh: n(s.kwh), alan: n(s.alan), azalma: n(s.azalma),
+    sehir: s.sehir, gunes: n(s.gunes), daire: n(s.daire), kwh: n(s.kwh), alan: n(s.alan), azalma: n(s.azalma),
     uretim: n(s.uretim), bakim: n(s.bakim), degisim: n(s.degisim), omur: s.omur, bio: n(s.bio),
     tampon: n(s.tampon), pay: n(s.pay),
     fiyatTxt: f(s.fiyat, 0),

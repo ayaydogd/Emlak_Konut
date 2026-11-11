@@ -2,28 +2,115 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-// public/cizimler/cizim-N.jpg varsa çizim gösterilir; yoksa kesikli yer tutucu kalır.
+// Görseller public/cizimler/ içindedir. Dosya yoksa kesikli yer tutucu görünür.
+const varMi = (dosya: string) => fs.existsSync(path.join(process.cwd(), 'public', 'cizimler', dosya));
+
 const cizimler = [
-  { dosya: 'cizim-1.jpg', baslik: 'Çizim 1 · Cephe görünüşü', aciklama: 'Lamellerin kapalı / yarı açık / açık konumları' },
-  { dosya: 'cizim-2.jpg', baslik: 'Çizim 2 · Modül detayı ve kesit', aciklama: 'Döner mil, motor, sensör, cephe ankrajı' },
-  { dosya: 'cizim-3.jpg', baslik: 'Çizim 3 · Perspektif', aciklama: 'Pilot bloğun batı cephesinde gölgelik' },
-].map((c) => ({ ...c, var: fs.existsSync(path.join(process.cwd(), 'public', 'cizimler', c.dosya)) }));
+  { dosya: 'gorunus.jpg', etiket: 'Cephe görünüşü', baslik: 'Her daireye kendi gölgesi', metin: 'Kargı lameller, delmeden takılan ray ve güneşi izleyen kontrol kutusu. Ölçek 1/100.', g: 1600, y: 1194 },
+  { dosya: 'detay.jpg', etiket: 'Bağlantı detayı', baslik: 'Delmeden, kelepçeyle', metin: 'Lamel çelik raya menteşe ve kelepçeyle bağlanır; sökülüp yeniden takılabilir.', g: 786, y: 891 },
+  { dosya: 'perspektif.jpg', etiket: 'Perspektif', baslik: 'Yazın keser, kışın içeri alır', metin: 'Yaz modunda 76,6° ile ısıyı engeller, kış modunda 29,7° ile güneşi içeri alır.', g: 1600, y: 1194 },
+].map((c) => ({ ...c, var: varMi(c.dosya) }));
+
+const buyuk = { dosya: 'son-gorunus.jpg', g: 3285, y: 3321, var: varMi('son-gorunus.jpg') };
 ---
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px">
-{cizimler.map((c) => c.var ? (
-<figure class="cizim">
-<a href={`/cizimler/${c.dosya}`}><img src={`/cizimler/${c.dosya}`} alt={`${c.baslik}: ${c.aciklama}`} loading="lazy" decoding="async"></a>
-<figcaption><strong>{c.baslik}</strong><span>{c.aciklama}</span></figcaption>
-</figure>
+<div class="cizim-listesi">
+{cizimler.map((c, i) => (
+<div class={`cizim-satir ${i % 2 === 1 ? 'ters' : ''}`}>
+{c.var ? (
+<a class="cizim-gorsel buyutec" href={`/cizimler/${c.dosya}`} target="_blank" rel="noopener" aria-label={`${c.etiket} çizimini tam boyutta aç`}>
+<img src={`/cizimler/${c.dosya}`} width={c.g} height={c.y} alt={`${c.etiket}: ${c.metin}`} loading="lazy" decoding="async">
+</a>
 ) : (
-<div class="yer-tutucu"><strong style="font-size: 18px">{c.baslik}</strong><span style="font-size: 14px; color: #55625B">{c.aciklama}</span></div>
+<div class="yer-tutucu"><strong>{c.etiket}</strong></div>
+)}
+<div class="cizim-metin">
+<span class="cizim-etiket">{c.etiket}</span>
+<h3>{c.baslik}</h3>
+<p>{c.metin}</p>
+</div>
+</div>
 ))}
 </div>
 
+{buyuk.var && (
+<figure class="buyuk-cizim">
+<a class="buyutec buyuk-cerceve" href={`/cizimler/${buyuk.dosya}`} target="_blank" rel="noopener" aria-label="Son cephe görünüşünü tam boyutta aç">
+<img src={`/cizimler/${buyuk.dosya}`} width={buyuk.g} height={buyuk.y} alt="Son cephe görünüşü: kat kotları (±0,00 ile +18,80 arası), kargı lameller, kelepçeli retrofit ray ve ESP32 kontrol kutusu" loading="lazy" decoding="async">
+</a>
+<figcaption><strong>Son cephe görünüşü</strong><span class="ipucu-fare">Fareyi çizimin üzerinde gezdirin, büyüteçle kotları ve detayları inceleyin.</span><span class="ipucu-dokun">Dokunarak tam boyutta açın, yakınlaştırarak inceleyin.</span></figcaption>
+</figure>
+)}
+
 <style>
-.yer-tutucu { min-height: 340px; border: 2px dashed #B8873A; border-radius: 24px; background: #F6F1E7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; }
-.cizim { margin: 0; border-radius: 24px; background: #F6F1E7; overflow: hidden; display: flex; flex-direction: column; }
-.cizim img { display: block; width: 100%; height: 340px; object-fit: contain; background: #FFFFFF; }
-.cizim figcaption { padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
-.cizim figcaption span { font-size: 14px; color: #55625B; }
+.cizim-listesi { display: flex; flex-direction: column; gap: 56px; }
+.cizim-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.cizim-satir.ters .cizim-gorsel, .cizim-satir.ters .yer-tutucu { order: 2; }
+.cizim-gorsel { display: block; border-radius: 24px; overflow: hidden; background: #FFFFFF; box-shadow: 0 1px 0 #E9DFC9, 0 12px 32px rgba(30, 42, 36, 0.08); }
+.cizim-gorsel img { display: block; width: 100%; height: auto; }
+.cizim-metin { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+.cizim-etiket { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #B8873A; }
+.cizim-metin h3 { margin: 0; font-size: clamp(24px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.5px; }
+.cizim-metin p { margin: 0; font-size: 17px; line-height: 1.55; color: #55625B; }
+.yer-tutucu { min-height: 340px; border: 2px dashed #B8873A; border-radius: 24px; background: #F6F1E7; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+
+.buyuk-cizim { margin: 24px 0 0; display: flex; flex-direction: column; gap: 14px; }
+.buyuk-cerceve { display: block; border-radius: 24px; overflow: hidden; background: #FFFFFF; border: 1px solid #E9DFC9; }
+.buyuk-cerceve img { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; }
+.buyuk-cizim figcaption { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; font-size: 15px; }
+.buyuk-cizim figcaption span { color: #55625B; font-size: 14px; }
+.ipucu-dokun { display: none; }
+@media (hover: none) { .ipucu-fare { display: none; } .ipucu-dokun { display: inline; } }
+
+@media (max-width: 760px) {
+  .cizim-listesi { gap: 40px; }
+  .cizim-satir { grid-template-columns: 1fr; gap: 18px; }
+  .cizim-satir.ters .cizim-gorsel, .cizim-satir.ters .yer-tutucu { order: 0; }
+}
 </style>
+
+<style is:global>
+.buyutec { position: relative; }
+.buyutec-mercek {
+  position: absolute; z-index: 5; width: 240px; height: 240px; border-radius: 50%;
+  border: 3px solid #FFFFFF; box-shadow: 0 0 0 2px #B8873A, 0 10px 30px rgba(30, 42, 36, 0.35);
+  background-color: #FFFFFF; background-repeat: no-repeat; pointer-events: none;
+  transform: translate(-50%, -50%); display: none;
+}
+.buyutec.aktif { cursor: zoom-in; }
+.buyutec.aktif .buyutec-mercek { display: block; }
+@media (max-width: 760px) { .buyutec-mercek { width: 170px; height: 170px; } }
+</style>
+
+<script>
+// Büyüteç: fare görselin üzerindeyken, görseli asıl çözünürlüğünde gösteren yuvarlak mercek.
+// Dokunmatik ekranlarda mercek çıkmaz; bağlantı görseli tam boyutta açar.
+for (const kap of document.querySelectorAll<HTMLElement>('.buyutec')) {
+  const img = kap.querySelector('img');
+  if (!img) continue;
+  const mercek = document.createElement('span');
+  mercek.className = 'buyutec-mercek';
+  mercek.setAttribute('aria-hidden', 'true');
+  mercek.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
+  kap.appendChild(mercek);
+
+  const goster = (e: PointerEvent) => {
+    if (e.pointerType === 'touch') return;
+    const r = img.getBoundingClientRect();
+    const k = kap.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    if (x < 0 || y < 0 || x > r.width || y > r.height) { kap.classList.remove('aktif'); return; }
+    // Görselin kendi çözünürlüğü kadar büyüt (en az 2,5 kat)
+    const zum = Math.max(2.5, img.naturalWidth / r.width);
+    const bw = r.width * zum, bh = r.height * zum;
+    const m = mercek.offsetWidth || 240;
+    mercek.style.backgroundSize = `${bw}px ${bh}px`;
+    mercek.style.backgroundPosition = `${m / 2 - x * zum}px ${m / 2 - y * zum}px`;
+    mercek.style.left = `${e.clientX - k.left}px`;
+    mercek.style.top = `${e.clientY - k.top}px`;
+    kap.classList.add('aktif');
+  };
+  kap.addEventListener('pointermove', goster);
+  kap.addEventListener('pointerenter', goster);
+  kap.addEventListener('pointerleave', () => kap.classList.remove('aktif'));
+}
+</script>
