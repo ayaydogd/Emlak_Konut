@@ -89,16 +89,16 @@ return (
 </div>
 
 <div class="sonuc">
-<span style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: #E3A33C">SONUÇ · <span data-out="sehir" style="text-transform: uppercase">{v.sehir}</span> · <span data-out="daire">{v.daire}</span> DAİRE</span>
-<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #C9D3CD">Yıllık satılabilir karbon</span><span style="font-size: clamp(38px, 9vw, 48px); font-weight: 700; letter-spacing: -1px"><span data-out="yillik">{v.yillik}</span> t</span></div>
-<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #C9D3CD">Yıllık satış bedeli · hak sahibine</span><span style="font-size: 32px; font-weight: 700; color: #E3A33C"><span data-out="hakTL">{v.hakTL}</span> TL</span><span style="font-size: 13px; color: #C9D3CD">Daire başı ≈ <span data-out="daireTL">{v.daireTL}</span> TL / yıl</span></div>
+<span class="nane" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px">SONUÇ · <span data-out="sehir" style="text-transform: uppercase">{v.sehir}</span> · <span data-out="daire">{v.daire}</span> DAİRE</span>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="soluk" style="font-size: 14px">Yıllık satılabilir karbon</span><span style="font-size: clamp(38px, 9vw, 48px); font-weight: 700; letter-spacing: -1px"><span data-out="yillik">{v.yillik}</span> t</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="soluk" style="font-size: 14px">Yıllık satış bedeli · hak sahibine</span><span class="nane" style="font-size: 32px; font-weight: 700"><span data-out="hakTL">{v.hakTL}</span> TL</span><span class="soluk" style="font-size: 13px">Daire başı ≈ <span data-out="daireTL">{v.daireTL}</span> TL / yıl</span></div>
 <div style="display: flex; flex-direction: column; gap: 0; font-size: 14px">
 {satirlar.map(([ad, on, key, son]) => (
 <div class="satir"><span>{ad}</span><strong>{on}<span data-out={key}>{v[key]}</span>{son}</strong></div>
 ))}
 <div class="satir" style="padding: 12px 0; font-size: 16px"><span><span data-out="omur">{v.omur}</span> yıllık net toplam</span><strong><span data-out="omurToplam">{v.omurToplam}</span> t</strong></div>
 </div>
-<div style="background: #2A3830; border-radius: 16px; padding: 14px; font-size: 13px; line-height: 1.5; color: #D5DED8">Daire başı yılda ≈ <span data-out="kwhDaire">{v.kwhDaire}</span> kWh daha az klima. A satışa henüz dahil değil: binada depolanan karbonun sertifika yöntemi AB'de hazırlanıyor; kayıtta tutulur.</div>
+<div class="sonuc-not">Daire başı yılda ≈ <span data-out="kwhDaire">{v.kwhDaire}</span> kWh daha az klima. A satışa henüz dahil değil: binada depolanan karbonun sertifika yöntemi AB'de hazırlanıyor; kayıtta tutulur.</div>
 </div>
 </form>
 </div>
@@ -109,11 +109,8 @@ return (
 .hesap-bant { background: linear-gradient(180deg, #F6F1E7 0%, #EDE3CF 18%, #E9DFC9 100%); }
 
 /* Her adımın kendi rengi (sitenin paletinden) */
-/* --renk: şerit, rozet, kaydırıcı · --acik: değer etiketinin zemini · --yazi: okunaklı koyu tonu */
-.grup-1 { --renk: #2F5D46; --acik: #E4ECE6; --yazi: #2F5D46; --rozet-yazi: #FFFFFF; }
-.grup-2 { --renk: #B8873A; --acik: #F4EAD8; --yazi: #6E4F1C; --rozet-yazi: #FFFFFF; }
-.grup-3 { --renk: #1E2A24; --acik: #E6E8E4; --yazi: #1E2A24; --rozet-yazi: #FFFFFF; }
-.grup-4 { --renk: #E3A33C; --acik: #FBEFD9; --yazi: #6E4A12; --rozet-yazi: #1E2A24; }
+/* Tek renk: canlı yeşil. --renk: şerit, rozet, kaydırıcı · --acik: değer etiketi zemini · --yazi: okunaklı koyu ton */
+#hesapla { --renk: #1E8A55; --acik: #DDF2E5; --yazi: #146B40; --rozet-yazi: #FFFFFF; }
 
 .grup {
   position: relative; overflow: hidden;
@@ -149,8 +146,17 @@ return (
 .grup input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .grup select { border-color: color-mix(in srgb, var(--renk) 35%, #CFC4AD); }
 .grup select:hover { border-color: var(--renk); }
-.sonuc { flex: 1 1 340px; min-width: 0; background: #1E2A24; color: #F6F1E7; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
-.satir { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #3A4A41; }
+/* Sonuç kartı: aynı yeşilin koyu tonu, vurgular açık nane */
+.sonuc {
+  --nane: #9BEBBE; --soluk: #CDE8D8;
+  flex: 1 1 340px; min-width: 0; background: linear-gradient(160deg, #187A4A 0%, #11583A 100%); color: #FFFFFF;
+  border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+  box-shadow: 0 16px 40px rgba(17, 88, 58, 0.28);
+}
+.sonuc .nane { color: var(--nane); }
+.sonuc .soluk { color: var(--soluk); }
+.sonuc .sonuc-not { background: rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 14px; font-size: 13px; line-height: 1.5; color: #E2F3E9; }
+.satir { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); }
 .satir strong { white-space: nowrap; }
 @media (min-width: 1000px) {
   .sonuc { position: sticky; top: 24px; }
